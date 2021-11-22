@@ -17,14 +17,22 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Color.blue
+            
+            LinearGradient(gradient: Gradient(colors: [.teal, .cyan]), startPoint: .top, endPoint: .bottom)
+            
                 .ignoresSafeArea()
             VStack(spacing: 30) {
                 VStack {
                     Text("Tap the flag of")
                         .foregroundColor(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.light)
                     Text(countries[correctAnswer])
                         .foregroundColor(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .underline()
+                    
                 }
                 ForEach(0..<3) { number in
                     Button {
@@ -32,8 +40,14 @@ struct ContentView: View {
                     } label: {
                         Image(countries[number])
                             .renderingMode(.original)
+                            .clipShape(Capsule())
+                            .shadow(radius: 5)
                     }
                 }
+                
+                Text("Your score: \(score)")
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
             }
         }
         .alert(scoreTitle, isPresented: $showingScore) {
