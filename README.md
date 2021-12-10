@@ -1,7 +1,7 @@
 # Guess The Flag 🇧🇷
 
 <p align="center">
-  <img src="https://media.giphy.com/media/DFGbi1JRnVtOJ0GJkS/giphy.gif">
+  <img src="https://media.giphy.com/media/bfRaZ86VaHWbfPlmxT/giphy.gif">
 </p>
 
 ## What is it about?
