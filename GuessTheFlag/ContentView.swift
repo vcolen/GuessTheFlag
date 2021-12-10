@@ -7,7 +7,15 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct Title: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle)
+            .foregroundColor(.blue)
+    }
+}
+
+struct ContentView: View { 
     @State private var showingScore = false
     @State private var showingFinalScore = false
     @State private var currentQuestion = 0
@@ -17,6 +25,10 @@ struct ContentView: View {
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
     @State private var score = 0
+    
+    @State private var rotationAmount = [0.0, 0.0, 0.0]
+    @State private var opacityAmount = [1.0, 1.0, 1.0]
+
     
     var body: some View {
         ZStack {
@@ -42,11 +54,11 @@ struct ContentView: View {
                     Button {
                         flagTapped(number)
                     } label: {
-                        Image(countries[number])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .shadow(radius: 5)
+                        FlagView(countryName: countries[number])
                     }
+                    .rotation3DEffect(.degrees(rotationAmount[number]), axis: (x: 0, y: 1, z: 0))
+                    .opacity(opacityAmount[number])
+
                 }
                 
                 Text("Your score: \(score)")
@@ -63,11 +75,14 @@ struct ContentView: View {
         .alert("The game has ended", isPresented: $showingFinalScore) {
             Button ("Play Again", action: askQuestion)
         } message: {
-            Text("You final score was \(finalScore)")
+            Text("Your final score was \(finalScore)")
         }
     }
     
     func flagTapped(_ number: Int) {
+        
+        animateFlags(number)
+        
         if number == correctAnswer {
             scoreTitle = "Correct!"
             score += 1
@@ -76,6 +91,7 @@ struct ContentView: View {
         }
         
         showingScore = true
+  
     }
     
     func endGame() {
@@ -86,6 +102,10 @@ struct ContentView: View {
     }
     
     func askQuestion() {
+        
+        turnFlagsBackToNormal()
+
+        
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
         currentQuestion += 1
@@ -93,12 +113,50 @@ struct ContentView: View {
         if currentQuestion == 8 {
             endGame()
         }
+        
+    }
     
+    func animateFlags(_ number: Int) {
+        withAnimation {
+            rotationAmount[number] += 360
+        }
+        for i in 0...2 {
+            if i != number {
+                withAnimation {
+                    opacityAmount[i] = 0.75
+                }
+            }
+        }
+    }
+    
+    func turnFlagsBackToNormal() {
+        for i in 0...2 {
+            withAnimation {
+                opacityAmount[i] = 1.0
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct FlagView: View {
+    var countryName: String
+    
+    var body: some View {
+        Image(countryName)
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .shadow(radius: 5)
+    }
+}
+
+extension View {
+    func titleStyle() -> some View {
+        modifier(Title())
     }
 }
