@@ -1,7 +1,18 @@
 # Guess The Flag 🇧🇷
 
+## Version 1.2
+<p align="center">
+  <img src="https://media.giphy.com/media/qTPuTeWnAFuPriyDlS/giphy.gif">
+</p>
+
+## Version 1.1
 <p align="center">
   <img src="https://media.giphy.com/media/bfRaZ86VaHWbfPlmxT/giphy.gif">
+</p>
+  
+ ## Version 1.0
+<p align="center">
+  <img src="https://media.giphy.com/media/DFGbi1JRnVtOJ0GJkS/giphy.gif">
 </p>
 
 ## What is it about?
